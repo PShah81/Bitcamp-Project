@@ -9,7 +9,7 @@ Created on Fri Apr  7 23:08:48 2023
 import cv2
 import mediapipe as mp
 import numpy as np
-
+from calculateAngle import calculate_angle
 mp_drawing = mp.solutions.drawing_utils #drawing utilities
 mp_pose = mp.solutions.pose 
 
@@ -18,7 +18,8 @@ cap = cv2.VideoCapture(0)
 
 #setup mediapipe instance
 with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
-
+    counter = 0
+    stage = "up"
     while cap.isOpened():
         ret, frame = cap.read()
         
@@ -37,8 +38,21 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
         #Extract Landmarks
         try:
             landmarks = results.pose_landmarks.landmark
-            print(landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value])
-            print(landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value])
+            right_hip = [landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].x, landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].y,landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].z]
+            right_knee = [landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value].x, landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value].y, landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value].z]
+            right_heel = [landmarks[mp_pose.PoseLandmark.RIGHT_HEEL.value].x, landmarks[mp_pose.PoseLandmark.RIGHT_HEEL.value].y, landmarks[mp_pose.PoseLandmark.RIGHT_HEEL.value].z]
+            
+            if right_hip[1] < right_knee[1] and stage == 'down':
+                print(calculate_angle(right_hip, right_knee,right_heel))
+                stage = "up"
+                counter += 1
+                print(counter)
+            if right_knee[1] <= right_hip[1] and stage == 'up':
+                stage = "down"
+                print("down")
+
+            #print(landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value])
+            #print(landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value])
         except:
             pass
 
@@ -55,3 +69,5 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
     
     cap.release()
     cv2.destroyAllWindows()
+
+    
