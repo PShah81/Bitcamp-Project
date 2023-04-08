@@ -22,24 +22,33 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
     while cap.isOpened():
         ret, frame = cap.read()
         
-        #recolor image
-        image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        image.flags.writeable = False
+        #recolor image to rgb
+        # image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        # #saves memory
+        # image.flags.writeable = False
         
         #make detection
-        results = pose.process(image)
+        results = pose.process(frame)
         
         #recolor back to bgr
-        image.flags.writeable = True
-        image = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-        
+        # image.flags.writeable = True
+        # image = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+      
+        #Extract Landmarks
+        try:
+            landmarks = results.pose_landmarks.landmark
+            print(landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value])
+            print(landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value])
+        except:
+            pass
+
         #render detections
-        mp_drawing.draw_landmarks(image, results.pose_landmarks, 
+        mp_drawing.draw_landmarks(frame, results.pose_landmarks, 
                                   mp_pose.POSE_CONNECTIONS,
                                   mp_drawing.DrawingSpec(color=(0,0,0), thickness=2, circle_radius=2), 
                                   mp_drawing.DrawingSpec(color=(255,255,255), thickness=2, circle_radius=2))
         
-        cv2.imshow('Mediapipe Feed', image)
+        cv2.imshow('Mediapipe Feed', frame)
     
         if cv2.waitKey(10) & 0xFF == ord('q'): #break loop if screen is closed or q key is pressed
             break
