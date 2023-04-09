@@ -49,6 +49,7 @@ def gen_frames():
             except:
                 pass
 
+            cv2.putText(frame, str(counter), tuple([600,600]), cv2.FONT_HERSHEY_PLAIN, 10, (255,255,255), 2, cv2.LINE_AA)
             #render detections
             mp_drawing.draw_landmarks(frame, results.pose_landmarks, 
                                     mp_pose.POSE_CONNECTIONS,
