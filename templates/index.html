@@ -1,9 +1,12 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
-
-html, body, div, span, applet, object, iframe,
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Checker</title>
+    <style>
+        html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
@@ -48,33 +51,35 @@ table {
 }
 
 /*start of header and foot styling*/
-header, footer {
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
-header h1, footer p {
+h1, p, a{
     font-size: 3rem;
     color: black;
-}
-footer a {
+    position: fixed;
     text-decoration: none;
 }
-/*end of header and footer styling*/
-/*start of main styling*/
-main {
-    
+h1 {
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
 }
-.main-cam {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+p{
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
 }
-.main-cam img {
-    
+img {
+    width: 100%;
+    height: auto;
 }
-.main-cam p {
-    font-size: 3rem;
-}
+
 /*end of main styling*/
+    </style>
+</head>
+<body>
+    <h1>Squat Rep Counter 🏋️</h1>
+    <img src="{{ url_for('video_feed') }}">
+</body>
+</html>

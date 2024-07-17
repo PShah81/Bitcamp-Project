@@ -1,3 +1,0 @@
-{
-    "packages": ["opencv-python", "mediapipe", "numpy"]
-}

@@ -55,7 +55,6 @@ def gen_frames():
                                     mp_drawing.DrawingSpec(color=(0,0,0), thickness=2, circle_radius=2), 
                                     mp_drawing.DrawingSpec(color=(255,255,255), thickness=2, circle_radius=2))
             
-            cv2.imshow('Mediapipe Feed', frame)
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
@@ -79,7 +78,3 @@ def calculate_angle(a, b, c):
         angle = 360-angle
 
     return angle
-
-
-gen_frames()
-    
